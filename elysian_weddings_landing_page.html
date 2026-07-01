@@ -1,0 +1,1298 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Elysian | Premium Wedding Planning, Reimagined</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Alpine.js for lightweight, interactive micro-animations & state -->
+    <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <!-- Google Fonts: Playfair Display & Plus Jakarta Sans -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- FontAwesome for Premium Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        champagne: {
+                            50: '#FAF7F2',
+                            100: '#F5EFE4',
+                            200: '#EBDDC5',
+                            300: '#E2CBA6',
+                            DEFAULT: '#F8F3EC',
+                        },
+                        ivory: {
+                            DEFAULT: '#FFFDF9',
+                            dark: '#F5F1E9'
+                        },
+                        rosegold: {
+                            100: '#F3EAE1',
+                            200: '#E4CCB6',
+                            DEFAULT: '#C9A47D',
+                            dark: '#A68057',
+                        },
+                        forest: {
+                            light: '#2D594F',
+                            DEFAULT: '#1E3A34',
+                            dark: '#122420',
+                        },
+                        charcoal: '#222222',
+                        warmgray: '#6B6B6B',
+                    },
+                    fontFamily: {
+                        serif: ['"Playfair Display"', 'serif'],
+                        sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Custom styles to enhance premium feel and handle custom overlays */
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: #FFFDF9;
+            color: #222222;
+        }
+        .text-serif {
+            font-family: 'Playfair Display', serif;
+        }
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #FFFDF9;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #C9A47D;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #A68057;
+        }
+        /* Pulse decoration */
+        .glow-effect {
+            box-shadow: 0 0 40px -10px rgba(201, 164, 125, 0.3);
+        }
+    </style>
+</head>
+<body x-data="{ 
+    mobileMenuOpen: false, 
+    scrolled: false, 
+    activeFeature: 'websites', 
+    budgetTotal: 35000,
+    guestCount: 120,
+    activeVendorTab: 'all',
+    activeTimelineStep: 1,
+    demoModalOpen: false
+}" @scroll.window="scrolled = (window.pageYOffset > 50) ? true : false" class="antialiased overflow-x-hidden">
+
+    <!-- NAVIGATION BAR -->
+    <header :class="scrolled ? 'bg-white/95 backdrop-blur-md shadow-sm py-4' : 'bg-transparent py-6'" class="fixed top-0 left-0 right-0 z-50 transition-all duration-500">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between">
+                <!-- Logo -->
+                <a href="#" class="flex items-center space-x-2 group">
+                    <span class="text-serif text-2xl sm:text-3xl font-semibold tracking-wider text-forest group-hover:text-rosegold transition-colors duration-300">ELYSIAN</span>
+                </a>
+
+                <!-- Desktop Nav Links -->
+                <nav class="hidden lg:flex items-center space-x-8">
+                    <a href="#features" class="text-sm font-medium text-forest hover:text-rosegold transition-colors duration-300">Features</a>
+                    <a href="#dashboard" class="text-sm font-medium text-forest hover:text-rosegold transition-colors duration-300">Planner Tool</a>
+                    <a href="#marketplace" class="text-sm font-medium text-forest hover:text-rosegold transition-colors duration-300">Vendors</a>
+                    <a href="#timeline" class="text-sm font-medium text-forest hover:text-rosegold transition-colors duration-300">Timeline</a>
+                    <a href="#pricing" class="text-sm font-medium text-forest hover:text-rosegold transition-colors duration-300">Pricing</a>
+                    <a href="#faq" class="text-sm font-medium text-forest hover:text-rosegold transition-colors duration-300">FAQ</a>
+                </nav>
+
+                <!-- Action CTA -->
+                <div class="hidden sm:flex items-center space-x-4">
+                    <a href="#pricing" class="text-sm font-medium text-forest hover:text-rosegold transition-colors duration-300">Sign In</a>
+                    <a href="#pricing" class="px-5 py-2.5 bg-forest hover:bg-forest-light text-white text-xs tracking-wider uppercase font-semibold rounded-full shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-0.5">
+                        Start Planning Free
+                    </a>
+                </div>
+
+                <!-- Mobile Menu Button -->
+                <button @click="mobileMenuOpen = !mobileMenuOpen" class="lg:hidden p-2 text-forest focus:outline-none" aria-label="Toggle menu">
+                    <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path x-show="!mobileMenuOpen" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                        <path x-show="mobileMenuOpen" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" style="display: none;" />
+                    </svg>
+                </button>
+            </div>
+        </div>
+
+        <!-- Mobile Menu (Drawer) -->
+        <div x-show="mobileMenuOpen" 
+             x-transition:enter="transition ease-out duration-300"
+             x-transition:enter-start="opacity-0 -translate-y-4"
+             x-transition:enter-end="opacity-100 translate-y-0"
+             x-transition:leave="transition ease-in duration-200"
+             x-transition:leave-start="opacity-100 translate-y-0"
+             x-transition:leave-end="opacity-0 -translate-y-4"
+             class="lg:hidden bg-white border-t border-champagne-200 mt-4 px-4 py-6 space-y-4 shadow-xl"
+             style="display: none;">
+            <a @click="mobileMenuOpen = false" href="#features" class="block text-base font-medium text-forest hover:text-rosegold py-2 border-b border-champagne-100">Features</a>
+            <a @click="mobileMenuOpen = false" href="#dashboard" class="block text-base font-medium text-forest hover:text-rosegold py-2 border-b border-champagne-100">Planner Tool</a>
+            <a @click="mobileMenuOpen = false" href="#marketplace" class="block text-base font-medium text-forest hover:text-rosegold py-2 border-b border-champagne-100">Vendors</a>
+            <a @click="mobileMenuOpen = false" href="#timeline" class="block text-base font-medium text-forest hover:text-rosegold py-2 border-b border-champagne-100">Timeline</a>
+            <a @click="mobileMenuOpen = false" href="#pricing" class="block text-base font-medium text-forest hover:text-rosegold py-2 border-b border-champagne-100">Pricing</a>
+            <a @click="mobileMenuOpen = false" href="#faq" class="block text-base font-medium text-forest hover:text-rosegold py-2">FAQ</a>
+            <div class="pt-4 flex flex-col space-y-3">
+                <a @click="mobileMenuOpen = false" href="#pricing" class="w-full text-center py-2.5 border border-forest text-forest hover:bg-champagne-50 font-medium rounded-full transition-colors duration-300">Sign In</a>
+                <a @click="mobileMenuOpen = false" href="#pricing" class="w-full text-center py-2.5 bg-forest hover:bg-forest-light text-white font-medium rounded-full transition-colors duration-300">Start Planning Free</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- HERO SECTION WITH CINEMATIC SIMULATION -->
+    <section class="relative min-h-screen flex items-center justify-center bg-champagne overflow-hidden pt-20">
+        <!-- Background elements - using curated rich dynamic stock imagery loops styled as video simulations -->
+        <div class="absolute inset-0 z-0">
+            <!-- Overlay and atmosphere -->
+            <div class="absolute inset-0 bg-gradient-to-r from-forest/40 via-forest/20 to-forest/50 z-10"></div>
+            <div class="absolute inset-0 bg-black/25 z-10"></div>
+            
+            <!-- Animated Stock Canvas / Simulated premium cinematic background loop -->
+            <div class="w-full h-full relative overflow-hidden">
+                <!-- Simulated slideshow video layer -->
+                <div class="absolute inset-0 w-full h-full flex transition-transform duration-1000">
+                    <img src="https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&q=80&w=2000" class="w-full h-full object-cover scale-105 animate-[pulse_10s_infinite_alternate]" alt="Dream wedding reception banquet setup outdoors under fairy lights">
+                </div>
+            </div>
+        </div>
+
+        <!-- Floating Decorative Elegant Shapes -->
+        <div class="absolute top-24 left-10 w-48 h-48 bg-white/10 rounded-full blur-2xl z-10 animate-bounce" style="animation-duration: 12s;"></div>
+        <div class="absolute bottom-20 right-10 w-72 h-72 bg-rosegold/10 rounded-full blur-3xl z-10 animate-pulse" style="animation-duration: 8s;"></div>
+
+        <!-- Hero Main Content -->
+        <div class="relative z-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-white py-12 md:py-24">
+            <span class="inline-block px-4 py-1.5 bg-white/15 backdrop-blur-md rounded-full text-xs sm:text-sm font-semibold tracking-wider text-champagne-100 uppercase mb-6 border border-white/20 animate-fade-in">
+                Introducing Elysian Concierge
+            </span>
+            
+            <h1 class="text-serif text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold tracking-tight leading-none mb-6 max-w-5xl mx-auto">
+                Wedding Planning, <br class="hidden sm:inline"><span class="text-transparent bg-clip-text bg-gradient-to-r from-white via-rosegold-200 to-champagne-100">Beautifully Reimagined</span>
+            </h1>
+            
+            <p class="text-base sm:text-lg md:text-xl text-champagne-50 font-light max-w-2xl mx-auto mb-10 leading-relaxed">
+                Plan your dream wedding from "Yes" to "I Do" with one beautiful platform. Designed for luxury, powered by effortless modern tools.
+            </p>
+
+            <!-- Dual Elegant CTAs -->
+            <div class="flex flex-col sm:flex-row justify-center items-center space-y-4 sm:space-y-0 sm:space-x-6 mb-16">
+                <a href="#pricing" class="w-full sm:w-auto px-8 py-4 bg-rosegold hover:bg-rosegold-dark text-forest-dark font-semibold text-sm uppercase tracking-wider rounded-full shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1">
+                    Start Planning Free
+                </a>
+                <button @click="demoModalOpen = true" class="w-full sm:w-auto px-8 py-4 bg-white/10 hover:bg-white/20 backdrop-blur-md text-white font-semibold text-sm uppercase tracking-wider rounded-full border border-white/30 transition-all duration-300 flex items-center justify-center space-x-2">
+                    <i class="fas fa-play text-xs text-rosegold mr-1"></i>
+                    <span>Watch Cinematic Demo</span>
+                </button>
+            </div>
+
+            <!-- Floating Elegant Trust Indicators -->
+            <div class="grid grid-cols-3 gap-4 md:gap-8 max-w-4xl mx-auto pt-8 border-t border-white/10">
+                <div class="text-center">
+                    <div class="text-serif text-2xl md:text-4xl font-bold text-white">50,000+</div>
+                    <div class="text-xs md:text-sm text-champagne-200 uppercase tracking-widest mt-1">Couples Happy</div>
+                </div>
+                <div class="text-center border-x border-white/10">
+                    <div class="text-serif text-2xl md:text-4xl font-bold text-white flex items-center justify-center space-x-1">
+                        <span>4.9</span>
+                        <span class="text-rosegold text-lg md:text-2xl">★</span>
+                    </div>
+                    <div class="text-xs md:text-sm text-champagne-200 uppercase tracking-widest mt-1">App Store Rating</div>
+                </div>
+                <div class="text-center">
+                    <div class="text-serif text-2xl md:text-4xl font-bold text-white">10,000+</div>
+                    <div class="text-xs md:text-sm text-champagne-200 uppercase tracking-widest mt-1">Verified Vendors</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Scroll Indicator -->
+        <div class="absolute bottom-6 left-1/2 -translate-x-1/2 z-20 hidden md:block">
+            <a href="#problem-solution" class="flex flex-col items-center text-white/60 hover:text-white transition-colors duration-300">
+                <span class="text-xs uppercase tracking-widest mb-2">Scroll to explore</span>
+                <div class="w-6 h-10 border-2 border-white/40 rounded-full flex justify-center pt-1.5">
+                    <div class="w-1.5 h-3 bg-rosegold rounded-full animate-bounce"></div>
+                </div>
+            </a>
+        </div>
+    </section>
+
+    <!-- PROBLEM & SOLUTION SECTION -->
+    <section id="problem-solution" class="py-20 md:py-32 bg-ivory relative overflow-hidden">
+        <div class="absolute -right-32 top-1/4 w-96 h-96 rounded-full bg-champagne-100/50 blur-3xl -z-10"></div>
+        <div class="absolute -left-32 bottom-1/4 w-96 h-96 rounded-full bg-rosegold-100/40 blur-3xl -z-10"></div>
+        
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-16 md:mb-24">
+                <h2 class="text-serif text-3xl sm:text-4xl md:text-5xl text-forest font-bold mb-4">Because Love Deserves Better Than Endless Spreadsheets</h2>
+                <div class="w-24 h-0.5 bg-rosegold mx-auto mb-6"></div>
+                <p class="text-warmgray text-lg font-light">Most platforms treat wedding planning like managing a complex corporate pipeline. We treat it like the beginning of your forever story.</p>
+            </div>
+
+            <!-- Elegant Split-Screen Layout -->
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-stretch">
+                
+                <!-- Left: Common Frustrations -->
+                <div class="lg:col-span-5 bg-white p-8 md:p-12 rounded-3xl border border-champagne-200/60 shadow-xl shadow-champagne-100/30 flex flex-col justify-between">
+                    <div>
+                        <span class="text-xs font-bold text-red-500/80 uppercase tracking-widest">The Frustrations</span>
+                        <h3 class="text-serif text-2xl md:text-3xl font-semibold text-charcoal mt-2 mb-8">What makes planning stressful?</h3>
+                        
+                        <div class="space-y-6">
+                            <div class="flex items-start space-x-4">
+                                <div class="w-8 h-8 rounded-full bg-red-50 flex items-center justify-center shrink-0 mt-1">
+                                    <span class="text-red-500 text-sm font-semibold">✕</span>
+                                </div>
+                                <div>
+                                    <h4 class="font-semibold text-charcoal">Disconnected Tools</h4>
+                                    <p class="text-sm text-warmgray mt-1">Shuffling between guest spreadsheets, budget forms, vendor PDF contracts, and email chains.</p>
+                                </div>
+                            </div>
+
+                            <div class="flex items-start space-x-4">
+                                <div class="w-8 h-8 rounded-full bg-red-50 flex items-center justify-center shrink-0 mt-1">
+                                    <span class="text-red-500 text-sm font-semibold">✕</span>
+                                </div>
+                                <div>
+                                    <h4 class="font-semibold text-charcoal">The "Wedding Markup" Trap</h4>
+                                    <p class="text-sm text-warmgray mt-1">Inflated costs and hidden fees popping up in fine print without upfront pricing visibility.</p>
+                                </div>
+                            </div>
+
+                            <div class="flex items-start space-x-4">
+                                <div class="w-8 h-8 rounded-full bg-red-50 flex items-center justify-center shrink-0 mt-1">
+                                    <span class="text-red-500 text-sm font-semibold">✕</span>
+                                </div>
+                                <div>
+                                    <h4 class="font-semibold text-charcoal">RSVP Chase-downs</h4>
+                                    <p class="text-sm text-warmgray mt-1">Manually tracking allergies, meal selections, and plus-ones for weeks after the deadline.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mt-12 p-4 bg-champagne-50 rounded-2xl border border-champagne-100 text-xs text-warmgray italic text-center">
+                        "We had 4 different spreadsheets going and our budget felt like a guessing game."
+                        <span class="block font-semibold not-italic text-charcoal mt-1">— Mark &amp; Sarah, Married in Newport</span>
+                    </div>
+                </div>
+
+                <!-- Middle Connection/Versus Accent (Desktop Only) -->
+                <div class="hidden lg:flex lg:col-span-2 flex-col items-center justify-center relative">
+                    <div class="w-px h-full bg-gradient-to-b from-transparent via-champagne-200 to-transparent"></div>
+                    <div class="absolute w-12 h-12 rounded-full bg-champagne border border-rosegold text-rosegold-dark flex items-center justify-center text-sm font-serif italic shadow-md">
+                        vs
+                    </div>
+                </div>
+
+                <!-- Right: Elysian Elegant Solution -->
+                <div class="lg:col-span-5 bg-forest p-8 md:p-12 rounded-3xl text-white shadow-2xl relative overflow-hidden flex flex-col justify-between">
+                    <!-- Subtle background luxury pattern representation -->
+                    <div class="absolute inset-0 bg-gradient-to-br from-forest-light/30 to-forest-dark -z-10"></div>
+                    <div class="absolute top-0 right-0 w-32 h-32 bg-white/5 rounded-full blur-2xl"></div>
+
+                    <div>
+                        <span class="text-xs font-bold text-rosegold uppercase tracking-widest">The Elysian Way</span>
+                        <h3 class="text-serif text-2xl md:text-3xl font-semibold text-white mt-2 mb-8">Effortless romantic harmony</h3>
+                        
+                        <div class="space-y-6">
+                            <div class="flex items-start space-x-4">
+                                <div class="w-8 h-8 rounded-full bg-white/10 border border-rosegold/30 flex items-center justify-center shrink-0 mt-1">
+                                    <i class="fas fa-check text-rosegold text-xs"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-semibold text-white">Unified Romantic Dashboard</h4>
+                                    <p class="text-sm text-champagne-100 mt-1">All details perfectly bound together—your guests, registries, checklist, timeline, and vendors update dynamically in one space.</p>
+                                </div>
+                            </div>
+
+                            <div class="flex items-start space-x-4">
+                                <div class="w-8 h-8 rounded-full bg-white/10 border border-rosegold/30 flex items-center justify-center shrink-0 mt-1">
+                                    <i class="fas fa-check text-rosegold text-xs"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-semibold text-white">Zero-Markup Vendor Concierge</h4>
+                                    <p class="text-sm text-champagne-100 mt-1">Book elite verified vendors at direct cost, with pre-negotiated perks and fully transparent payment structures.</p>
+                                </div>
+                            </div>
+
+                            <div class="flex items-start space-x-4">
+                                <div class="w-8 h-8 rounded-full bg-white/10 border border-rosegold/30 flex items-center justify-center shrink-0 mt-1">
+                                    <i class="fas fa-check text-rosegold text-xs"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-semibold text-white">Automated RSVP Concierge</h4>
+                                    <p class="text-sm text-champagne-100 mt-1">Our platform does the chasing for you with gentle SMS &amp; email follow-ups, logging diet choices instantly.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mt-12 p-5 bg-white/5 rounded-2xl border border-white/10 text-center">
+                        <span class="text-xs text-rosegold uppercase font-semibold tracking-widest block mb-2">Our Promise</span>
+                        <p class="text-serif text-sm italic text-champagne-100">"To preserve the romance in planning, saving couples an average of 140 stress-hours."</p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- PREMIUM FEATURES & INTERACTIVE SHOWCASE -->
+    <section id="features" class="py-20 md:py-32 bg-white relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-16 md:mb-24">
+                <span class="text-xs font-bold text-rosegold uppercase tracking-widest">Designed for perfectionists</span>
+                <h2 class="text-serif text-3xl sm:text-4xl md:text-5xl text-forest font-bold mt-2 mb-4">Features Tailored to Your Legacy</h2>
+                <div class="w-24 h-0.5 bg-rosegold mx-auto mb-6"></div>
+                <p class="text-warmgray text-lg font-light">Every single instrument you need to construct your dream day, engineered with a luxurious attention to detail.</p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
+                
+                <!-- Left Content: Feature Selector Accordion -->
+                <div class="lg:col-span-5 space-y-4">
+                    <!-- Feature Button 1 -->
+                    <button @click="activeFeature = 'websites'" 
+                            :class="activeFeature === 'websites' ? 'bg-champagne border-l-4 border-rosegold' : 'hover:bg-champagne-50'"
+                            class="w-full text-left p-6 rounded-r-2xl transition-all duration-300 border-l-4 border-transparent">
+                        <div class="flex items-center space-x-4">
+                            <div class="w-12 h-12 rounded-xl bg-forest text-white flex items-center justify-center shadow-md">
+                                <i class="fas fa-laptop-code text-lg"></i>
+                            </div>
+                            <div>
+                                <h3 class="font-bold text-lg text-forest">Wedding Websites</h3>
+                                <p class="text-xs text-rosegold font-semibold tracking-widest uppercase mt-0.5">Bespoke Editorial Layouts</p>
+                            </div>
+                        </div>
+                        <p x-show="activeFeature === 'websites'" x-collapse class="text-sm text-warmgray mt-4 leading-relaxed" style="display: none;">
+                            Bespoke digital homes for your love story. Crafted using luxury typography, cinematic photo galleries, dynamic maps, and beautifully integrated registry lists.
+                        </p>
+                    </button>
+
+                    <!-- Feature Button 2 -->
+                    <button @click="activeFeature = 'guest'" 
+                            :class="activeFeature === 'guest' ? 'bg-champagne border-l-4 border-rosegold' : 'hover:bg-champagne-50'"
+                            class="w-full text-left p-6 rounded-r-2xl transition-all duration-300 border-l-4 border-transparent">
+                        <div class="flex items-center space-x-4">
+                            <div class="w-12 h-12 rounded-xl bg-forest text-white flex items-center justify-center shadow-md">
+                                <i class="fas fa-users-cog text-lg"></i>
+                            </div>
+                            <div>
+                                <h3 class="font-bold text-lg text-forest">Guest &amp; RSVP Tracking</h3>
+                                <p class="text-xs text-rosegold font-semibold tracking-widest uppercase mt-0.5">Instant Real-Time Intel</p>
+                            </div>
+                        </div>
+                        <p x-show="activeFeature === 'guest'" x-collapse class="text-sm text-warmgray mt-4 leading-relaxed" style="display: none;">
+                            Import guests effortlessly, group by parties, customize meal choices, design dietary parameters, and observe digital RSVPs roll in instantaneously.
+                        </p>
+                    </button>
+
+                    <!-- Feature Button 3 -->
+                    <button @click="activeFeature = 'budget'" 
+                            :class="activeFeature === 'budget' ? 'bg-champagne border-l-4 border-rosegold' : 'hover:bg-champagne-50'"
+                            class="w-full text-left p-6 rounded-r-2xl transition-all duration-300 border-l-4 border-transparent">
+                        <div class="flex items-center space-x-4">
+                            <div class="w-12 h-12 rounded-xl bg-forest text-white flex items-center justify-center shadow-md">
+                                <i class="fas fa-calculator text-lg"></i>
+                            </div>
+                            <div>
+                                <h3 class="font-bold text-lg text-forest">Smart Budget Blueprint</h3>
+                                <p class="text-xs text-rosegold font-semibold tracking-widest uppercase mt-0.5">Intelligent Cost Management</p>
+                            </div>
+                        </div>
+                        <p x-show="activeFeature === 'budget'" x-collapse class="text-sm text-warmgray mt-4 leading-relaxed" style="display: none;">
+                            Allocate with ultimate assurance. Our intelligent engine breaks down target spend, prompts dynamic installment deadlines, and reveals actual spending vs projections.
+                        </p>
+                    </button>
+
+                    <!-- Feature Button 4 -->
+                    <button @click="activeFeature = 'ai'" 
+                            :class="activeFeature === 'ai' ? 'bg-champagne border-l-4 border-rosegold' : 'hover:bg-champagne-50'"
+                            class="w-full text-left p-6 rounded-r-2xl transition-all duration-300 border-l-4 border-transparent">
+                        <div class="flex items-center space-x-4">
+                            <div class="w-12 h-12 rounded-xl bg-forest text-white flex items-center justify-center shadow-md">
+                                <i class="fas fa-wand-magic-sparkles text-lg"></i>
+                            </div>
+                            <div>
+                                <h3 class="font-bold text-lg text-forest">AI Wedding Muse</h3>
+                                <p class="text-xs text-rosegold font-semibold tracking-widest uppercase mt-0.5">Your Virtual Chief of Staff</p>
+                            </div>
+                        </div>
+                        <p x-show="activeFeature === 'ai'" x-collapse class="text-sm text-warmgray mt-4 leading-relaxed" style="display: none;">
+                            Instant bespoke advice on etiquette, custom wedding vow writing assistance, menu translation templates, and clever seating configuration advice.
+                        </p>
+                    </button>
+                </div>
+
+                <!-- Right Display: Fully Dynamic Live Interactive Mockup Canvas -->
+                <div class="lg:col-span-7 bg-champagne-50 p-6 md:p-10 rounded-3xl border border-champagne-200 glow-effect relative overflow-hidden">
+                    <div class="absolute top-4 left-4 flex space-x-1.5">
+                        <span class="w-3 h-3 rounded-full bg-red-400"></span>
+                        <span class="w-3 h-3 rounded-full bg-yellow-400"></span>
+                        <span class="w-3 h-3 rounded-full bg-green-400"></span>
+                    </div>
+                    <div class="text-center text-xs font-semibold text-warmgray tracking-widest uppercase mb-6">Interactive Preview Window</div>
+
+                    <!-- Dynamic Container 1: Bespoke Wedding Websites -->
+                    <div x-show="activeFeature === 'websites'" x-transition:enter="transition ease-out duration-500" class="space-y-6">
+                        <div class="bg-white rounded-2xl shadow-xl overflow-hidden border border-champagne-100">
+                            <!-- Simulated Premium Site Header -->
+                            <div class="bg-forest text-white p-6 text-center relative">
+                                <span class="font-serif italic text-sm tracking-widest text-rosegold">Welcome to our forever</span>
+                                <h4 class="text-serif text-2xl font-bold tracking-wide mt-1">CHARLOTTE &amp; JULIAN</h4>
+                                <p class="text-xs tracking-widest text-champagne-100 mt-2">OCTOBER 14, 2026 • ASPEN, CO</p>
+                            </div>
+                            <!-- Photo collage preview -->
+                            <div class="grid grid-cols-2 gap-2 p-4">
+                                <img src="https://images.unsplash.com/photo-1511285560929-80b456fea0bc?auto=format&fit=crop&q=80&w=400" alt="Couple laughing" class="rounded-lg h-36 w-full object-cover">
+                                <img src="https://images.unsplash.com/photo-1465495976277-4387d4b0b4c6?auto=format&fit=crop&q=80&w=400" alt="Elegant venue table setup" class="rounded-lg h-36 w-full object-cover">
+                            </div>
+                            <!-- Interactive Guest RSVP Simulation inside the Website -->
+                            <div class="p-6 border-t border-champagne-100 bg-champagne-50/50">
+                                <div class="max-w-xs mx-auto text-center">
+                                    <h5 class="text-sm font-semibold text-forest mb-2">Kindly RSVP on our Website</h5>
+                                    <div class="flex space-x-2 justify-center">
+                                        <button class="px-4 py-1.5 bg-forest text-white text-xs font-semibold rounded-full hover:bg-forest-light transition-all">Will Attend</button>
+                                        <button class="px-4 py-1.5 bg-white border border-champagne-200 text-xs font-semibold text-warmgray rounded-full">Decline</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Dynamic Container 2: Guest and RSVP Simulator -->
+                    <div x-show="activeFeature === 'guest'" x-transition:enter="transition ease-out duration-500" class="space-y-6" style="display: none;">
+                        <div class="bg-white rounded-2xl shadow-xl p-6 border border-champagne-100">
+                            <div class="flex justify-between items-center pb-4 border-b border-champagne-100">
+                                <h4 class="font-bold text-forest">Live Guest Registry</h4>
+                                <span class="px-2.5 py-1 bg-green-100 text-green-800 text-xs font-bold rounded-full">92% Replied</span>
+                            </div>
+
+                            <div class="space-y-3 mt-4">
+                                <div class="flex justify-between items-center p-3 bg-champagne-50 rounded-xl">
+                                    <div class="flex items-center space-x-3">
+                                        <div class="w-8 h-8 rounded-full bg-forest text-white flex items-center justify-center text-xs font-semibold">EH</div>
+                                        <div>
+                                            <p class="text-sm font-semibold text-charcoal">Evelyn &amp; Arthur Hunt</p>
+                                            <p class="text-[10px] text-warmgray">Party of 2 • Friends of Bride</p>
+                                        </div>
+                                    </div>
+                                    <div class="text-right">
+                                        <span class="px-2 py-0.5 bg-green-50 text-green-700 border border-green-200 text-[10px] uppercase font-bold rounded">Attending</span>
+                                        <p class="text-[10px] text-warmgray mt-0.5">Steak &amp; Salmon</p>
+                                    </div>
+                                </div>
+
+                                <div class="flex justify-between items-center p-3 bg-champagne-50 rounded-xl">
+                                    <div class="flex items-center space-x-3">
+                                        <div class="w-8 h-8 rounded-full bg-forest text-white flex items-center justify-center text-xs font-semibold">DC</div>
+                                        <div>
+                                            <p class="text-sm font-semibold text-charcoal">Dr. Charles Vance</p>
+                                            <p class="text-[10px] text-warmgray">Party of 1 • Uncle</p>
+                                        </div>
+                                    </div>
+                                    <div class="text-right">
+                                        <span class="px-2 py-0.5 bg-green-50 text-green-700 border border-green-200 text-[10px] uppercase font-bold rounded">Attending</span>
+                                        <p class="text-[10px] text-warmgray mt-0.5">Vegan Option</p>
+                                    </div>
+                                </div>
+
+                                <div class="flex justify-between items-center p-3 bg-champagne-50 rounded-xl opacity-75">
+                                    <div class="flex items-center space-x-3">
+                                        <div class="w-8 h-8 rounded-full bg-rosegold text-white flex items-center justify-center text-xs font-semibold">LM</div>
+                                        <div>
+                                            <p class="text-sm font-semibold text-charcoal">The Miller Family</p>
+                                            <p class="text-[10px] text-warmgray">Party of 4 • Cousins</p>
+                                        </div>
+                                    </div>
+                                    <div class="text-right">
+                                        <span class="px-2 py-0.5 bg-amber-50 text-amber-700 border border-amber-200 text-[10px] uppercase font-bold rounded">Pending</span>
+                                        <p class="text-[10px] text-rosegold font-bold mt-0.5">Autosent reminder 2h ago</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Dynamic Container 3: Budget Allocator Tool -->
+                    <div x-show="activeFeature === 'budget'" x-transition:enter="transition ease-out duration-500" class="space-y-6" style="display: none;">
+                        <div class="bg-white rounded-2xl shadow-xl p-6 border border-champagne-100">
+                            <h4 class="font-bold text-forest mb-4">Allocation &amp; Spend Simulator</h4>
+                            <div class="grid grid-cols-2 gap-4 mb-6">
+                                <div class="p-3 bg-champagne-50 rounded-xl border border-champagne-100">
+                                    <p class="text-[10px] text-warmgray uppercase tracking-wider font-semibold">Simulated Budget Cap</p>
+                                    <p class="text-xl font-bold text-forest mt-1">$45,000</p>
+                                </div>
+                                <div class="p-3 bg-champagne-50 rounded-xl border border-champagne-100">
+                                    <p class="text-[10px] text-warmgray uppercase tracking-wider font-semibold">Current Bookings</p>
+                                    <p class="text-xl font-bold text-rosegold-dark mt-1">$31,400</p>
+                                </div>
+                            </div>
+
+                            <div class="space-y-3">
+                                <div>
+                                    <div class="flex justify-between text-xs font-semibold mb-1">
+                                        <span class="text-charcoal">Premium Venue Hire</span>
+                                        <span class="text-forest">$18,000 / $20,000 max</span>
+                                    </div>
+                                    <div class="w-full bg-champagne-100 h-2 rounded-full overflow-hidden">
+                                        <div class="bg-forest h-full rounded-full" style="width: 90%"></div>
+                                    </div>
+                                </div>
+                                <div>
+                                    <div class="flex justify-between text-xs font-semibold mb-1">
+                                        <span class="text-charcoal">Floral &amp; Creative Scaping</span>
+                                        <span class="text-forest">$6,500 / $8,000 max</span>
+                                    </div>
+                                    <div class="w-full bg-champagne-100 h-2 rounded-full overflow-hidden">
+                                        <div class="bg-forest h-full rounded-full" style="width: 81%"></div>
+                                    </div>
+                                </div>
+                                <div>
+                                    <div class="flex justify-between text-xs font-semibold mb-1">
+                                        <span class="text-charcoal">Fine Dining Catering</span>
+                                        <span class="text-forest">$6,900 / $10,000 max</span>
+                                    </div>
+                                    <div class="w-full bg-champagne-100 h-2 rounded-full overflow-hidden">
+                                        <div class="bg-rosegold h-full rounded-full" style="width: 69%"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Dynamic Container 4: AI Wedding Muse Chat Simulation -->
+                    <div x-show="activeFeature === 'ai'" x-transition:enter="transition ease-out duration-500" class="space-y-6" style="display: none;">
+                        <div class="bg-white rounded-2xl shadow-xl p-6 border border-champagne-100">
+                            <div class="flex items-center space-x-3 pb-4 border-b border-champagne-100 mb-4">
+                                <div class="w-9 h-9 rounded-full bg-forest text-rosegold flex items-center justify-center">
+                                    <i class="fas fa-wand-magic-sparkles"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-bold text-forest text-sm">Elysian AI Wedding Muse</h4>
+                                    <span class="text-[10px] text-emerald-600 font-bold tracking-wide flex items-center">
+                                        <span class="w-1.5 h-1.5 bg-emerald-500 rounded-full inline-block mr-1"></span> Active Online Concierge
+                                    </span>
+                                </div>
+                            </div>
+
+                            <div class="space-y-4 max-h-56 overflow-y-auto pr-1">
+                                <div class="bg-champagne-50 rounded-xl p-3 text-xs text-charcoal max-w-[85%]">
+                                    "I am struggling to find an elegant way to ask for cash registry donations without offending my traditional relatives. Can you help me phrase it?"
+                                </div>
+                                <div class="bg-forest text-champagne-50 rounded-xl p-3 text-xs max-w-[85%] ml-auto shadow-sm">
+                                    "Of course! Here is a beautifully soft phrase: <br><br>
+                                    <span class="italic font-serif">'Your presence on our day is the greatest gift of all. However, if you wish to honor us with a contribution, we are curating a fund to seed our future home together.'</span>"
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- INTERACTIVE DASHBOARD PREVIEW & PLANNER CALCULATOR -->
+    <section id="dashboard" class="py-20 md:py-32 bg-champagne-50 relative border-t border-b border-champagne-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-16">
+                <span class="text-xs font-bold text-rosegold uppercase tracking-widest">Instant interactive tool</span>
+                <h2 class="text-serif text-3xl sm:text-4xl md:text-5xl text-forest font-bold mt-2 mb-4">Experience the Dashboard</h2>
+                <div class="w-24 h-0.5 bg-rosegold mx-auto mb-6"></div>
+                <p class="text-warmgray text-lg font-light">Play with the sliders below to see how our planning system instantly adjusts timelines, tasks, and budgets for your guest counts.</p>
+            </div>
+
+            <!-- Interactive Planner Control Panel -->
+            <div class="bg-white rounded-3xl p-8 md:p-12 border border-champagne-200 shadow-2xl mb-12">
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+                    
+                    <!-- Calculator Inputs -->
+                    <div class="lg:col-span-4 space-y-6 lg:border-r lg:border-champagne-200 lg:pr-8">
+                        <div>
+                            <div class="flex justify-between items-center mb-2">
+                                <label class="text-sm font-semibold text-forest">Estimated Budget</label>
+                                <span class="text-lg font-bold text-rosegold-dark" x-text="'$' + Number(budgetTotal).toLocaleString()">$35,000</span>
+                            </div>
+                            <input type="range" min="10000" max="150000" step="5000" x-model="budgetTotal" class="w-full accent-rosegold cursor-pointer h-2 bg-champagne-100 rounded-lg appearance-none">
+                            <div class="flex justify-between text-[10px] text-warmgray mt-1">
+                                <span>$10,000</span>
+                                <span>$150,000+</span>
+                            </div>
+                        </div>
+
+                        <div>
+                            <div class="flex justify-between items-center mb-2">
+                                <label class="text-sm font-semibold text-forest">Guest Count</label>
+                                <span class="text-lg font-bold text-rosegold-dark" x-text="guestCount + ' Guests'">120 Guests</span>
+                            </div>
+                            <input type="range" min="20" max="400" step="10" x-model="guestCount" class="w-full accent-rosegold cursor-pointer h-2 bg-champagne-100 rounded-lg appearance-none">
+                            <div class="flex justify-between text-[10px] text-warmgray mt-1">
+                                <span>20 Guests</span>
+                                <span>400 Guests</span>
+                            </div>
+                        </div>
+
+                        <div class="pt-4 border-t border-champagne-100">
+                            <div class="flex items-center space-x-2 text-xs text-warmgray">
+                                <i class="fas fa-info-circle text-rosegold"></i>
+                                <span>Figures are carefully adjusted using regional vendor standards.</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Live Dashboard Calculations Panel -->
+                    <div class="lg:col-span-8">
+                        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                            <!-- Metric 1 -->
+                            <div class="bg-champagne/40 rounded-2xl p-5 border border-champagne-200 text-center">
+                                <p class="text-xs uppercase tracking-wider text-warmgray font-semibold">Recommended Venue Cap</p>
+                                <p class="text-serif text-2xl font-bold text-forest mt-2" x-text="'$' + Math.round(budgetTotal * 0.45).toLocaleString()"></p>
+                                <p class="text-[10px] text-warmgray mt-1">45% recommended target</p>
+                            </div>
+                            <!-- Metric 2 -->
+                            <div class="bg-champagne/40 rounded-2xl p-5 border border-champagne-200 text-center">
+                                <p class="text-xs uppercase tracking-wider text-warmgray font-semibold">Per-Plate Dining Target</p>
+                                <p class="text-serif text-2xl font-bold text-forest mt-2" x-text="'$' + Math.round((budgetTotal * 0.20) / guestCount).toLocaleString()"></p>
+                                <p class="text-[10px] text-warmgray mt-1">For <span x-text="guestCount"></span> guests at 20% budget</p>
+                            </div>
+                            <!-- Metric 3 -->
+                            <div class="bg-champagne/40 rounded-2xl p-5 border border-champagne-200 text-center">
+                                <p class="text-xs uppercase tracking-wider text-warmgray font-semibold">Est. Planning Tasks</p>
+                                <p class="text-serif text-2xl font-bold text-forest mt-2" x-text="guestCount > 150 ? '82 Tasks' : '48 Tasks'">48 Tasks</p>
+                                <p class="text-[10px] text-warmgray mt-1">Dynamic checklist weight</p>
+                            </div>
+                        </div>
+
+                        <!-- Real-time dynamic visual timeline progress bar illustration -->
+                        <div class="mt-8 bg-forest text-white rounded-2xl p-6 relative overflow-hidden">
+                            <div class="relative z-10 flex flex-col md:flex-row justify-between items-start md:items-center space-y-4 md:space-y-0">
+                                <div>
+                                    <h4 class="text-serif text-lg font-semibold">Your Dynamic Checklist Plan</h4>
+                                    <p class="text-xs text-champagne-100 mt-1">Estimating <span x-text="guestCount"></span> invites, target registry volume: <span x-text="Math.round(guestCount * 1.2)"></span> registry units.</p>
+                                </div>
+                                <a href="#pricing" class="px-5 py-2.5 bg-rosegold text-forest hover:bg-rosegold-dark text-xs font-bold uppercase tracking-wider rounded-full transition-all duration-300">
+                                    Generate Custom Plan
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- PREMIUM VENDOR MARKETPLACE -->
+    <section id="marketplace" class="py-20 md:py-32 bg-ivory relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col md:flex-row justify-between items-end mb-16">
+                <div>
+                    <span class="text-xs font-bold text-rosegold uppercase tracking-widest">Hand-selected verified artisans</span>
+                    <h2 class="text-serif text-3xl sm:text-4xl md:text-5xl text-forest font-bold mt-2">The Elysian Collective</h2>
+                    <div class="w-20 h-0.5 bg-rosegold mt-4"></div>
+                </div>
+                <p class="text-warmgray max-w-md font-light mt-4 md:mt-0">
+                    Bypass endless Google reviews. Access the world’s most trusted creative partners with pre-vetted luxury standards and simple online communication.
+                </p>
+            </div>
+
+            <!-- Tab Buttons -->
+            <div class="flex space-x-2 md:space-x-4 overflow-x-auto pb-4 mb-10 border-b border-champagne-200">
+                <button @click="activeVendorTab = 'all'" :class="activeVendorTab === 'all' ? 'bg-forest text-white' : 'bg-white text-forest border border-champagne-200 hover:bg-champagne-50'" class="px-5 py-2 rounded-full text-xs font-bold tracking-wider uppercase transition-all duration-300 shrink-0">
+                    All Categories
+                </button>
+                <button @click="activeVendorTab = 'venues'" :class="activeVendorTab === 'venues' ? 'bg-forest text-white' : 'bg-white text-forest border border-champagne-200 hover:bg-champagne-50'" class="px-5 py-2 rounded-full text-xs font-bold tracking-wider uppercase transition-all duration-300 shrink-0">
+                    Venues
+                </button>
+                <button @click="activeVendorTab = 'photos'" :class="activeVendorTab === 'photos' ? 'bg-forest text-white' : 'bg-white text-forest border border-champagne-200 hover:bg-champagne-50'" class="px-5 py-2 rounded-full text-xs font-bold tracking-wider uppercase transition-all duration-300 shrink-0">
+                    Photographers
+                </button>
+                <button @click="activeVendorTab = 'florists'" :class="activeVendorTab === 'florists' ? 'bg-forest text-white' : 'bg-white text-forest border border-champagne-200 hover:bg-champagne-50'" class="px-5 py-2 rounded-full text-xs font-bold tracking-wider uppercase transition-all duration-300 shrink-0">
+                    Florists &amp; Planners
+                </button>
+            </div>
+
+            <!-- Vendor Grid Card Layout -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Card 1 (Venue) -->
+                <div x-show="activeVendorTab === 'all' || activeVendorTab === 'venues'" 
+                     x-transition:enter="transition ease-out duration-300"
+                     class="bg-white rounded-2xl overflow-hidden border border-champagne-200/60 shadow-lg hover:shadow-xl transition-all duration-300 group">
+                    <div class="h-64 relative overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1519167758481-83f550bb49b3?auto=format&fit=crop&q=80&w=600" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" alt="Premium luxury villa glasshouse venue setup in forest hills">
+                        <span class="absolute top-4 right-4 bg-white/90 backdrop-blur-md px-3 py-1 text-[10px] tracking-wider uppercase font-extrabold text-forest rounded-full">
+                            Venues
+                        </span>
+                    </div>
+                    <div class="p-6">
+                        <div class="flex justify-between items-center mb-2">
+                            <span class="text-xs font-bold text-rosegold-dark uppercase tracking-widest">Napa Valley, CA</span>
+                            <span class="text-sm font-semibold text-charcoal">★★★★★ (49)</span>
+                        </div>
+                        <h4 class="text-serif text-xl font-bold text-forest group-hover:text-rosegold transition-colors">The Glasshouse Estate</h4>
+                        <p class="text-sm text-warmgray mt-2 font-light">A spectacular luxury modern estate encased in custom architectural glass overlooking rolling vineyard vistas.</p>
+                        <div class="mt-6 pt-4 border-t border-champagne-100 flex justify-between items-center">
+                            <span class="text-xs text-warmgray">Direct Rental Fee</span>
+                            <span class="font-bold text-forest">$12,000 - $18,500</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 2 (Photos) -->
+                <div x-show="activeVendorTab === 'all' || activeVendorTab === 'photos'" 
+                     x-transition:enter="transition ease-out duration-300"
+                     class="bg-white rounded-2xl overflow-hidden border border-champagne-200/60 shadow-lg hover:shadow-xl transition-all duration-300 group">
+                    <div class="h-64 relative overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1606800052052-a08af7148866?auto=format&fit=crop&q=80&w=600" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" alt="Professional fine art photographer capturing close romantic portrait">
+                        <span class="absolute top-4 right-4 bg-white/90 backdrop-blur-md px-3 py-1 text-[10px] tracking-wider uppercase font-extrabold text-forest rounded-full">
+                            Photographers
+                        </span>
+                    </div>
+                    <div class="p-6">
+                        <div class="flex justify-between items-center mb-2">
+                            <span class="text-xs font-bold text-rosegold-dark uppercase tracking-widest">Paris • New York</span>
+                            <span class="text-sm font-semibold text-charcoal">★★★★★ (72)</span>
+                        </div>
+                        <h4 class="text-serif text-xl font-bold text-forest group-hover:text-rosegold transition-colors">Vance &amp; Co. Editorial</h4>
+                        <p class="text-sm text-warmgray mt-2 font-light">Fine art editorial photography specializing in natural daylight captured beautifully on modern medium format analog film.</p>
+                        <div class="mt-6 pt-4 border-t border-champagne-100 flex justify-between items-center">
+                            <span class="text-xs text-warmgray">Elysian Concierge Special</span>
+                            <span class="font-bold text-forest">$6,000 - $9,500</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 3 (Florist) -->
+                <div x-show="activeVendorTab === 'all' || activeVendorTab === 'florists'" 
+                     x-transition:enter="transition ease-out duration-300"
+                     class="bg-white rounded-2xl overflow-hidden border border-champagne-200/60 shadow-lg hover:shadow-xl transition-all duration-300 group">
+                    <div class="h-64 relative overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1526047932273-341f2a7631f9?auto=format&fit=crop&q=80&w=600" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" alt="Beautiful white rose and eucalyptus lush wedding table bouquet">
+                        <span class="absolute top-4 right-4 bg-white/90 backdrop-blur-md px-3 py-1 text-[10px] tracking-wider uppercase font-extrabold text-forest rounded-full">
+                            Florists
+                        </span>
+                    </div>
+                    <div class="p-6">
+                        <div class="flex justify-between items-center mb-2">
+                            <span class="text-xs font-bold text-rosegold-dark uppercase tracking-widest">Aesthetic Floristry</span>
+                            <span class="text-sm font-semibold text-charcoal">★★★★★ (38)</span>
+                        </div>
+                        <h4 class="text-serif text-xl font-bold text-forest group-hover:text-rosegold transition-colors">La Fleur Sauvage</h4>
+                        <p class="text-sm text-warmgray mt-2 font-light">Breathtaking modern floral architecture incorporating white roses, sweet peas, and luxurious, oversized cascading branches.</p>
+                        <div class="mt-6 pt-4 border-t border-champagne-100 flex justify-between items-center">
+                            <span class="text-xs text-warmgray">Direct Custom Install</span>
+                            <span class="font-bold text-forest">$4,500 - $8,000</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Centralized Marketplace Link -->
+            <div class="text-center mt-12">
+                <a href="#pricing" class="inline-flex items-center space-x-2 text-forest hover:text-rosegold font-bold uppercase tracking-wider text-xs transition-colors">
+                    <span>Explore 450+ high-end collective creators</span>
+                    <i class="fas fa-chevron-right text-[10px]"></i>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- INTERACTIVE LUXURY PLANNING TIMELINE -->
+    <section id="timeline" class="py-20 md:py-32 bg-forest text-white relative overflow-hidden">
+        <!-- Abstract romantic background lighting element -->
+        <div class="absolute right-0 bottom-0 w-96 h-96 bg-white/5 rounded-full blur-3xl"></div>
+        
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-16 md:mb-24">
+                <span class="text-xs font-bold text-rosegold uppercase tracking-widest">Our Blueprint of Romance</span>
+                <h2 class="text-serif text-3xl sm:text-4xl md:text-5xl text-white font-bold mt-2 mb-4">Step-by-Step Milestones</h2>
+                <div class="w-24 h-0.5 bg-rosegold mx-auto mb-6"></div>
+                <p class="text-champagne-100 text-lg font-light">How we accompany you safely along your creative path, ensuring absolute peace of mind from day one.</p>
+            </div>
+
+            <!-- Intersecting Timeline Line -->
+            <div class="relative max-w-4xl mx-auto">
+                <div class="absolute left-1/2 -translate-x-1/2 top-0 bottom-0 w-0.5 bg-gradient-to-b from-white/10 via-rosegold to-white/10 hidden md:block"></div>
+                
+                <!-- Timeline Step 1 -->
+                <div class="relative grid grid-cols-1 md:grid-cols-2 gap-8 items-center mb-16">
+                    <div class="md:text-right pr-0 md:pr-12">
+                        <span class="text-xs font-bold text-rosegold uppercase tracking-widest">Phase 1 • 12 Months Out</span>
+                        <h3 class="text-serif text-2xl font-semibold text-white mt-1 mb-2">The Elegant Conception</h3>
+                        <p class="text-sm text-champagne-100 font-light leading-relaxed">Establish your target registry concept, setup dynamic online savings vaults, customize design palettes, and lock down premium locations.</p>
+                    </div>
+                    <div class="relative pl-0 md:pl-12">
+                        <!-- Node Circle -->
+                        <div class="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-[41px] w-5 h-5 rounded-full border-4 border-forest bg-rosegold shadow-md hidden md:block"></div>
+                        <img src="https://images.unsplash.com/photo-1515934751635-c81c6bc9a2d8?auto=format&fit=crop&q=80&w=400" alt="Sparkling engagement rings" class="rounded-2xl h-48 w-full object-cover shadow-xl border border-white/10">
+                    </div>
+                </div>
+
+                <!-- Timeline Step 2 -->
+                <div class="relative grid grid-cols-1 md:grid-cols-2 gap-8 items-center mb-16">
+                    <div class="relative pr-0 md:pr-12 md:order-2">
+                        <!-- Node Circle -->
+                        <div class="absolute right-0 top-1/2 -translate-y-1/2 translate-x-[41px] w-5 h-5 rounded-full border-4 border-forest bg-rosegold shadow-md hidden md:block"></div>
+                        <img src="https://images.unsplash.com/photo-1502602898657-3e91760cbb34?auto=format&fit=crop&q=80&w=400" alt="Wedding invitation letters" class="rounded-2xl h-48 w-full object-cover shadow-xl border border-white/10">
+                    </div>
+                    <div class="pl-0 md:pl-12 md:text-left">
+                        <span class="text-xs font-bold text-rosegold uppercase tracking-widest">Phase 2 • 6 Months Out</span>
+                        <h3 class="text-serif text-2xl font-semibold text-white mt-1 mb-2">Artistry &amp; Invitations</h3>
+                        <p class="text-sm text-champagne-100 font-light leading-relaxed">Launch your custom Elysian wedding website, upload invite list documents, compile guest dietary filters, and issue RSVP alerts.</p>
+                    </div>
+                </div>
+
+                <!-- Timeline Step 3 -->
+                <div class="relative grid grid-cols-1 md:grid-cols-2 gap-8 items-center mb-16">
+                    <div class="md:text-right pr-0 md:pr-12">
+                        <span class="text-xs font-bold text-rosegold uppercase tracking-widest">Phase 3 • 2 Months Out</span>
+                        <h3 class="text-serif text-2xl font-semibold text-white mt-1 mb-2">The Final Configuration</h3>
+                        <p class="text-sm text-champagne-100 font-light leading-relaxed">Synthesize final headcounts, map seating plans easily in the dynamic layout tool, lock floral installs, and secure final meal orders.</p>
+                    </div>
+                    <div class="relative pl-0 md:pl-12">
+                        <!-- Node Circle -->
+                        <div class="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-[41px] w-5 h-5 rounded-full border-4 border-forest bg-rosegold shadow-md hidden md:block"></div>
+                        <img src="https://images.unsplash.com/photo-1544078751-58fed2b324d4?auto=format&fit=crop&q=80&w=400" alt="Florals and dining preparation" class="rounded-2xl h-48 w-full object-cover shadow-xl border border-white/10">
+                    </div>
+                </div>
+
+                <!-- Timeline Step 4 -->
+                <div class="relative grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+                    <div class="relative pr-0 md:pr-12 md:order-2">
+                        <!-- Node Circle -->
+                        <div class="absolute right-0 top-1/2 -translate-y-1/2 translate-x-[41px] w-5 h-5 rounded-full border-4 border-forest bg-rosegold shadow-md hidden md:block"></div>
+                        <img src="https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&q=80&w=400" alt="Sparks and celebration moments" class="rounded-2xl h-48 w-full object-cover shadow-xl border border-white/10">
+                    </div>
+                    <div class="pl-0 md:pl-12 md:text-left">
+                        <span class="text-xs font-bold text-rosegold uppercase tracking-widest">Phase 4 • The Big Day</span>
+                        <h3 class="text-serif text-2xl font-semibold text-white mt-1 mb-2">Pure Celebration</h3>
+                        <p class="text-sm text-champagne-100 font-light leading-relaxed">Relax as your day-of coordination, live digital schedule, guest photo sharing portal, and vendor tips execute flawlessly.</p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- PREMIUM TESTIMONIALS CAROUSEL -->
+    <section class="py-20 md:py-32 bg-white relative overflow-hidden" x-data="{ activeIndex: 0, totalReviews: 3 }">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-16">
+                <span class="text-xs font-bold text-rosegold uppercase tracking-widest">Real stories of devotion</span>
+                <h2 class="text-serif text-3xl sm:text-4xl md:text-5xl text-forest font-bold mt-2">Treasured Memories</h2>
+                <div class="w-20 h-0.5 bg-rosegold mx-auto mt-4"></div>
+            </div>
+
+            <!-- Carousel Slide Deck Wrapper -->
+            <div class="relative max-w-4xl mx-auto bg-champagne-50 border border-champagne-200 p-8 md:p-16 rounded-3xl shadow-xl">
+                
+                <!-- Review Slider 1 -->
+                <div x-show="activeIndex === 0" x-transition:enter="transition ease-out duration-500" class="space-y-6">
+                    <div class="flex justify-center text-rosegold text-xl">★★★★★</div>
+                    <p class="text-serif text-lg md:text-2xl text-forest text-center italic leading-relaxed">
+                        "Elysian entirely transformed the landscape of our wedding preparation. We skipped the endless budget guessing and managed 180 guest RSVPs directly from our beautiful customized website. It felt like having a personal luxury planner on call 24/7."
+                    </p>
+                    <div class="flex flex-col items-center pt-6">
+                        <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=120" class="w-16 h-16 rounded-full object-cover border-2 border-rosegold mb-3" alt="Grace &amp; Liam wedding day review portrait">
+                        <h4 class="font-bold text-forest">Grace &amp; Liam</h4>
+                        <p class="text-xs text-warmgray uppercase tracking-widest">Aspen Glasshouse Wedding • 180 Guests</p>
+                    </div>
+                </div>
+
+                <!-- Review Slider 2 -->
+                <div x-show="activeIndex === 1" x-transition:enter="transition ease-out duration-500" class="space-y-6" style="display: none;">
+                    <div class="flex justify-center text-rosegold text-xl">★★★★★</div>
+                    <p class="text-serif text-lg md:text-2xl text-forest text-center italic leading-relaxed">
+                        "The absolute transparency was the selling point for us. Direct vendor negotiations saved us nearly $6,400, and our family commented extensively on how lovely our invitations and seating map layouts looked. A premium, modern miracle."
+                    </p>
+                    <div class="flex flex-col items-center pt-6">
+                        <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=120" class="w-16 h-16 rounded-full object-cover border-2 border-rosegold mb-3" alt="Devon &amp; Alisha review portrait">
+                        <h4 class="font-bold text-forest">Devon &amp; Alisha</h4>
+                        <p class="text-xs text-warmgray uppercase tracking-widest">Napa Vineyards Wedding • 140 Guests</p>
+                    </div>
+                </div>
+
+                <!-- Review Slider 3 -->
+                <div x-show="activeIndex === 2" x-transition:enter="transition ease-out duration-500" class="space-y-6" style="display: none;">
+                    <div class="flex justify-center text-rosegold text-xl">★★★★★</div>
+                    <p class="text-serif text-lg md:text-2xl text-forest text-center italic leading-relaxed">
+                        "The AI writing assistant helped me script the most emotional vows I could have imagined. Combining RSVP management, checklist tracking, and the budget toolkit in one gorgeous page left us to focus purely on the joy of our marriage."
+                    </p>
+                    <div class="flex flex-col items-center pt-6">
+                        <img src="https://images.unsplash.com/photo-1508214751196-bcfd4ca60f91?auto=format&fit=crop&q=80&w=120" class="w-16 h-16 rounded-full object-cover border-2 border-rosegold mb-3" alt="Marcus &amp; Taylor portrait review">
+                        <h4 class="font-bold text-forest">Marcus &amp; Taylor</h4>
+                        <p class="text-xs text-warmgray uppercase tracking-widest">Hudson Valley Outdoor Wedding • 210 Guests</p>
+                    </div>
+                </div>
+
+                <!-- Nav Arrow Indicators -->
+                <button @click="activeIndex = (activeIndex - 1 + totalReviews) % totalReviews" class="absolute left-4 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-white border border-champagne-200 text-forest hover:bg-champagne-50 flex items-center justify-center shadow-md focus:outline-none" aria-label="Previous testimonial">
+                    <i class="fas fa-chevron-left text-sm"></i>
+                </button>
+                <button @click="activeIndex = (activeIndex + 1) % totalReviews" class="absolute right-4 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-white border border-champagne-200 text-forest hover:bg-champagne-50 flex items-center justify-center shadow-md focus:outline-none" aria-label="Next testimonial">
+                    <i class="fas fa-chevron-right text-sm"></i>
+                </button>
+
+                <!-- Navigation Dot Indicators -->
+                <div class="flex justify-center space-x-2 mt-8">
+                    <button @click="activeIndex = 0" :class="activeIndex === 0 ? 'bg-rosegold w-6' : 'bg-champagne-200 w-2'" class="h-2 rounded-full transition-all duration-300"></button>
+                    <button @click="activeIndex = 1" :class="activeIndex === 1 ? 'bg-rosegold w-6' : 'bg-champagne-200 w-2'" class="h-2 rounded-full transition-all duration-300"></button>
+                    <button @click="activeIndex = 2" :class="activeIndex === 2 ? 'bg-rosegold w-6' : 'bg-champagne-200 w-2'" class="h-2 rounded-full transition-all duration-300"></button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- TRUST STATS GRID -->
+    <section class="py-16 bg-champagne border-t border-b border-champagne-200/50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-2 lg:grid-cols-4 gap-8">
+                <div class="text-center">
+                    <span class="text-serif text-3xl sm:text-4xl md:text-5xl font-bold text-forest block">50,000+</span>
+                    <span class="text-xs uppercase tracking-widest text-warmgray mt-2 block font-semibold">Couples Served</span>
+                </div>
+                <div class="text-center border-l border-champagne-300">
+                    <span class="text-serif text-3xl sm:text-4xl md:text-5xl font-bold text-forest block">1 Million+</span>
+                    <span class="text-xs uppercase tracking-widest text-warmgray mt-2 block font-semibold">Guests Welcomed</span>
+                </div>
+                <div class="text-center border-l border-champagne-300">
+                    <span class="text-serif text-3xl sm:text-4xl md:text-5xl font-bold text-forest block">$12M+</span>
+                    <span class="text-xs uppercase tracking-widest text-warmgray mt-2 block font-semibold">Saved in Fees</span>
+                </div>
+                <div class="text-center border-l border-champagne-300">
+                    <span class="text-serif text-3xl sm:text-4xl md:text-5xl font-bold text-forest block">4.9 / 5</span>
+                    <span class="text-xs uppercase tracking-widest text-warmgray mt-2 block font-semibold">Star Satisfaction</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- PREMIUM PLANS & PRICING -->
+    <section id="pricing" class="py-20 md:py-32 bg-ivory relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-16 md:mb-24">
+                <span class="text-xs font-bold text-rosegold uppercase tracking-widest">Straightforward Premium Pricing</span>
+                <h2 class="text-serif text-3xl sm:text-4xl md:text-5xl text-forest font-bold mt-2 mb-4">Invest in Pure Joy</h2>
+                <div class="w-24 h-0.5 bg-rosegold mx-auto mb-6"></div>
+                <p class="text-warmgray text-lg font-light">Completely zero commission markups. Choose the tier that matches your required planning ambition.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12 max-w-5xl mx-auto items-stretch">
+                <!-- Plan 1 (Free) -->
+                <div class="bg-white rounded-3xl p-8 md:p-12 border border-champagne-200 shadow-xl flex flex-col justify-between">
+                    <div>
+                        <span class="text-xs font-bold text-warmgray uppercase tracking-widest block mb-1">Essential Starter</span>
+                        <h3 class="text-serif text-3xl font-bold text-forest">Elysian Core</h3>
+                        <p class="text-xs text-rosegold font-semibold tracking-wider mt-1 uppercase">Free Forever</p>
+                        
+                        <div class="my-8">
+                            <span class="text-serif text-4xl sm:text-5xl font-extrabold text-charcoal">$0</span>
+                            <span class="text-xs text-warmgray font-medium tracking-wider"> / lifelong plan</span>
+                        </div>
+
+                        <div class="w-full h-px bg-champagne-100 my-6"></div>
+
+                        <ul class="space-y-4 text-sm text-charcoal">
+                            <li class="flex items-center space-x-3">
+                                <i class="fas fa-check text-rosegold text-xs"></i>
+                                <span>1 Bespoke Wedding Website layout</span>
+                            </li>
+                            <li class="flex items-center space-x-3">
+                                <i class="fas fa-check text-rosegold text-xs"></i>
+                                <span>Digital Guest Registry with up to 100 guests</span>
+                            </li>
+                            <li class="flex items-center space-x-3">
+                                <i class="fas fa-check text-rosegold text-xs"></i>
+                                <span>Interactive RSVPs via email notifications</span>
+                            </li>
+                            <li class="flex items-center space-x-3 text-warmgray/60">
+                                <i class="fas fa-times text-xs"></i>
+                                <span class="line-through">AI Wedding Planning Assistant access</span>
+                            </li>
+                            <li class="flex items-center space-x-3 text-warmgray/60">
+                                <i class="fas fa-times text-xs"></i>
+                                <span class="line-through">Premium direct budget allocation maps</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="mt-12">
+                        <button class="w-full py-4 bg-champagne hover:bg-champagne-100 text-forest font-bold uppercase tracking-wider text-xs rounded-full shadow-md transition-colors duration-300">
+                            Create Free Account
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Plan 2 (Premium - Highly Recommended) -->
+                <div class="bg-forest rounded-3xl p-8 md:p-12 text-white shadow-2xl relative overflow-hidden flex flex-col justify-between border-4 border-rosegold/50 transform md:-translate-y-4">
+                    <div class="absolute top-0 right-0 bg-rosegold text-forest font-extrabold text-[10px] uppercase tracking-widest py-1.5 px-6 rounded-bl-2xl">
+                        Recommended Luxe Selection
+                    </div>
+                    
+                    <div>
+                        <span class="text-xs font-bold text-rosegold uppercase tracking-widest block mb-1">Elite Complete Suite</span>
+                        <h3 class="text-serif text-3xl font-bold text-white">Elysian Concierge</h3>
+                        <p class="text-xs text-champagne-200 font-semibold tracking-wider mt-1 uppercase">Best worth investment</p>
+                        
+                        <div class="my-8">
+                            <span class="text-serif text-4xl sm:text-5xl font-extrabold text-white">$149</span>
+                            <span class="text-xs text-champagne-200 font-medium tracking-wider"> / complete access (one-off payment)</span>
+                        </div>
+
+                        <div class="w-full h-px bg-white/10 my-6"></div>
+
+                        <ul class="space-y-4 text-sm text-champagne-50">
+                            <li class="flex items-center space-x-3">
+                                <i class="fas fa-check text-rosegold text-xs"></i>
+                                <span class="font-bold text-white">Unlimited premium bespoke editorial themes</span>
+                            </li>
+                            <li class="flex items-center space-x-3">
+                                <i class="fas fa-check text-rosegold text-xs"></i>
+                                <span>Unlimited Guests &amp; advanced RSVP SMS alerts</span>
+                            </li>
+                            <li class="flex items-center space-x-3">
+                                <i class="fas fa-check text-rosegold text-xs"></i>
+                                <span>Smart Cost Budget allocating engines</span>
+                            </li>
+                            <li class="flex items-center space-x-3">
+                                <i class="fas fa-check text-rosegold text-xs"></i>
+                                <span>Complete AI Wedding Muse writing and concierge tools</span>
+                            </li>
+                            <li class="flex items-center space-x-3">
+                                <i class="fas fa-check text-rosegold text-xs"></i>
+                                <span>Custom vanity web domain (e.g. charlotteandjulian.com)</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="mt-12">
+                        <button class="w-full py-4 bg-rosegold hover:bg-rosegold-dark text-forest font-extrabold uppercase tracking-wider text-xs rounded-full shadow-xl transition-colors duration-300">
+                            Unlock Elysian Concierge
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Money-back guarantee trust badge -->
+            <div class="text-center mt-12 text-xs text-warmgray">
+                <i class="fas fa-shield-halved text-rosegold mr-1.5"></i>
+                100% Love-It Guarantee. Return any concierge package within 30 days if you are not fully enchanted.
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ SECTION ACCORDIONS -->
+    <section id="faq" class="py-20 md:py-32 bg-white border-t border-champagne-200/50" x-data="{ activeFaq: null }">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-16">
+                <span class="text-xs font-bold text-rosegold uppercase tracking-widest">Thoughtful Inquiries</span>
+                <h2 class="text-serif text-3xl sm:text-4xl text-forest font-bold mt-2">Frequently Explored</h2>
+                <div class="w-20 h-0.5 bg-rosegold mx-auto mt-4"></div>
+            </div>
+
+            <!-- Accordion List -->
+            <div class="space-y-4">
+                <!-- FAQ 1 -->
+                <div class="border border-champagne-200 rounded-2xl overflow-hidden transition-all duration-300">
+                    <button @click="activeFaq = (activeFaq === 1) ? null : 1" class="w-full text-left p-6 bg-champagne-50/50 hover:bg-champagne-50 flex justify-between items-center transition-colors">
+                        <span class="font-bold text-forest">Are there any hidden service markups or booking fees with Elysian?</span>
+                        <i :class="activeFaq === 1 ? 'fa-minus' : 'fa-plus'" class="fas text-rosegold text-xs transition-transform duration-300"></i>
+                    </button>
+                    <div x-show="activeFaq === 1" x-collapse class="p-6 text-sm text-warmgray border-t border-champagne-100 bg-white" style="display: none;">
+                        Absolutely none. Unlike conventional planners or traditional web agencies, we do not mark up or take commission percentages on creative bookings. You receive exact direct pricing with our selected vendor network.
+                    </div>
+                </div>
+
+                <!-- FAQ 2 -->
+                <div class="border border-champagne-200 rounded-2xl overflow-hidden transition-all duration-300">
+                    <button @click="activeFaq = (activeFaq === 2) ? null : 2" class="w-full text-left p-6 bg-champagne-50/50 hover:bg-champagne-50 flex justify-between items-center transition-colors">
+                        <span class="font-bold text-forest">Can I easily import existing guest list spreadsheets or documents?</span>
+                        <i :class="activeFaq === 2 ? 'fa-minus' : 'fa-plus'" class="fas text-rosegold text-xs transition-transform duration-300"></i>
+                    </button>
+                    <div x-show="activeFaq === 2" x-collapse class="p-6 text-sm text-warmgray border-t border-champagne-100 bg-white" style="display: none;">
+                        Yes! You can instantly upload Excel, CSV, Google Sheets, or simple address books. Our elegant database automatically maps columns, detects family groupings, and checks for duplicate addresses.
+                    </div>
+                </div>
+
+                <!-- FAQ 3 -->
+                <div class="border border-champagne-200 rounded-2xl overflow-hidden transition-all duration-300">
+                    <button @click="activeFaq = (activeFaq === 3) ? null : 3" class="w-full text-left p-6 bg-champagne-50/50 hover:bg-champagne-50 flex justify-between items-center transition-colors">
+                        <span class="font-bold text-forest">How long does it take to deploy our dynamic Elysian Wedding Website?</span>
+                        <i :class="activeFaq === 3 ? 'fa-minus' : 'fa-plus'" class="fas text-rosegold text-xs transition-transform duration-300"></i>
+                    </button>
+                    <div x-show="activeFaq === 3" x-collapse class="p-6 text-sm text-warmgray border-t border-champagne-100 bg-white" style="display: none;">
+                        Within 5 minutes. You select your preferred custom luxury design, plug in basic wedding info, and we immediately spin up your premium, live, secure URL containing interactive registry assets.
+                    </div>
+                </div>
+
+                <!-- FAQ 4 -->
+                <div class="border border-champagne-200 rounded-2xl overflow-hidden transition-all duration-300">
+                    <button @click="activeFaq = (activeFaq === 4) ? null : 4" class="w-full text-left p-6 bg-champagne-50/50 hover:bg-champagne-50 flex justify-between items-center transition-colors">
+                        <span class="font-bold text-forest">What exactly is the Elysian 100% Love-It Guarantee?</span>
+                        <i :class="activeFaq === 4 ? 'fa-minus' : 'fa-plus'" class="fas text-rosegold text-xs transition-transform duration-300"></i>
+                    </button>
+                    <div x-show="activeFaq === 4" x-collapse class="p-6 text-sm text-warmgray border-t border-champagne-100 bg-white" style="display: none;">
+                        We want you to feel entirely at ease. If for any reason our Elysian Concierge plan isn’t perfectly customized to your planning needs, tell our help desk within 30 days of upgrading, and we will issue a full, polite refund.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FINAL CTA / HERO OUTRO -->
+    <section class="relative py-24 md:py-36 bg-forest text-white overflow-hidden text-center flex items-center justify-center">
+        <!-- Cinematic dark romantic ambient overlay of couples dining -->
+        <div class="absolute inset-0 z-0">
+            <div class="absolute inset-0 bg-forest/85 z-10"></div>
+            <img src="https://images.unsplash.com/photo-1544078751-58fed2b324d4?auto=format&fit=crop&q=80&w=1500" class="w-full h-full object-cover scale-105" alt="Outdoor high-end luxury canopy lighting ceremony dining">
+        </div>
+
+        <div class="relative z-10 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <span class="text-xs font-bold text-rosegold uppercase tracking-widest block mb-4">Start your forever effortlessly</span>
+            <h2 class="text-serif text-4xl sm:text-5xl md:text-6xl font-extrabold mb-6 leading-tight">Your Perfect Wedding Day <br>Begins Right Here</h2>
+            <p class="text-champagne-100 max-w-lg mx-auto font-light text-base md:text-lg mb-10 leading-relaxed">Join 50,000+ happy couples who elevated their wedding path using luxurious clarity, simplified planning, and elegant precision.</p>
+            
+            <div class="flex flex-col sm:flex-row justify-center items-center space-y-4 sm:space-y-0 sm:space-x-6">
+                <a href="#pricing" class="w-full sm:w-auto px-8 py-4 bg-rosegold hover:bg-rosegold-dark text-forest-dark font-extrabold text-sm uppercase tracking-wider rounded-full shadow-lg transition-transform hover:-translate-y-1">
+                    Start Planning Free
+                </a>
+                <a href="#pricing" class="w-full sm:w-auto px-8 py-4 bg-white/15 hover:bg-white/20 backdrop-blur-md text-white font-semibold text-sm uppercase tracking-wider rounded-full border border-white/20 transition-transform">
+                    Unlock Premium Concierge
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- ACCESSIBILITY & PREMIUM STYLE FOOTER -->
+    <footer class="bg-forest-dark text-champagne-100/80 py-16 border-t border-white/5">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-8 mb-12">
+                <!-- Branding column -->
+                <div class="lg:col-span-4">
+                    <span class="text-serif text-3xl font-semibold tracking-widest text-white block mb-4">ELYSIAN</span>
+                    <p class="text-xs leading-relaxed max-w-xs text-champagne-100/60 font-light">
+                        Elysian is a modern global lifestyle startup devoted to establishing luxury, ease, and emotional elegance inside wedding organization.
+                    </p>
+                    <div class="flex space-x-4 mt-6">
+                        <a href="#" class="text-champagne-100 hover:text-rosegold transition-colors" aria-label="Facebook Account"><i class="fab fa-facebook"></i></a>
+                        <a href="#" class="text-champagne-100 hover:text-rosegold transition-colors" aria-label="Instagram Page"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="text-champagne-100 hover:text-rosegold transition-colors" aria-label="Pinterest Boards"><i class="fab fa-pinterest"></i></a>
+                        <a href="#" class="text-champagne-100 hover:text-rosegold transition-colors" aria-label="Twitter Account"><i class="fab fa-twitter"></i></a>
+                    </div>
+                </div>
+
+                <!-- Column 2 (Product) -->
+                <div class="lg:col-span-2">
+                    <h4 class="text-xs font-bold text-white uppercase tracking-wider mb-4">The Suite</h4>
+                    <ul class="space-y-2 text-xs">
+                        <li><a href="#features" class="hover:text-rosegold transition-colors">Bespoke Websites</a></li>
+                        <li><a href="#features" class="hover:text-rosegold transition-colors">RSVP Messenger</a></li>
+                        <li><a href="#features" class="hover:text-rosegold transition-colors">Budget Calculator</a></li>
+                        <li><a href="#features" class="hover:text-rosegold transition-colors">AI Wedding Assistant</a></li>
+                    </ul>
+                </div>
+
+                <!-- Column 3 (Vendors) -->
+                <div class="lg:col-span-2">
+                    <h4 class="text-xs font-bold text-white uppercase tracking-wider mb-4">The Collective</h4>
+                    <ul class="space-y-2 text-xs">
+                        <li><a href="#marketplace" class="hover:text-rosegold transition-colors">Elite Venues</a></li>
+                        <li><a href="#marketplace" class="hover:text-rosegold transition-colors">Photographers</a></li>
+                        <li><a href="#marketplace" class="hover:text-rosegold transition-colors">Artisan Florists</a></li>
+                        <li><a href="#marketplace" class="hover:text-rosegold transition-colors">Fine Dining Caterers</a></li>
+                    </ul>
+                </div>
+
+                <!-- Column 4 (Policies) -->
+                <div class="lg:col-span-2">
+                    <h4 class="text-xs font-bold text-white uppercase tracking-wider mb-4">Elysian Trust</h4>
+                    <ul class="space-y-2 text-xs">
+                        <li><a href="#faq" class="hover:text-rosegold transition-colors">Guarantees</a></li>
+                        <li><a href="#" class="hover:text-rosegold transition-colors">Privacy Charter</a></li>
+                        <li><a href="#" class="hover:text-rosegold transition-colors">Service Standards</a></li>
+                        <li><a href="#" class="hover:text-rosegold transition-colors">Contact Support</a></li>
+                    </ul>
+                </div>
+
+                <!-- Column 5 (Newsletter) -->
+                <div class="lg:col-span-2">
+                    <h4 class="text-xs font-bold text-white uppercase tracking-wider mb-4">Registry Ideas</h4>
+                    <p class="text-[10px] text-champagne-100/50 mb-3 leading-relaxed">Join the curated weekly letter for modern style guides.</p>
+                    <form @submit.prevent class="flex">
+                        <input type="email" placeholder="Your Email" class="px-3 py-2 text-xs rounded-l-md focus:outline-none text-charcoal bg-white w-full">
+                        <button class="bg-rosegold hover:bg-rosegold-dark text-forest font-bold px-3 rounded-r-md transition-colors" aria-label="Subscribe to newsletter">
+                            <i class="fas fa-paper-plane text-xs"></i>
+                        </button>
+                    </form>
+                </div>
+            </div>
+
+            <div class="pt-8 border-t border-white/5 flex flex-col md:flex-row justify-between items-center text-[11px] text-champagne-100/40">
+                <p>&copy; 2026 Elysian Wedding Technologies Inc. All Rights Reserved. Fully verified by SecureTrust.</p>
+                <div class="flex space-x-4 mt-4 md:mt-0">
+                    <a href="#" class="hover:text-white transition-colors">Terms of Service</a>
+                    <a href="#" class="hover:text-white transition-colors">Privacy Policy</a>
+                    <a href="#" class="hover:text-white transition-colors">Accessibility Charter</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- CINEMATIC VIDEO DEMO MODAL -->
+    <div x-show="demoModalOpen" 
+         class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md"
+         x-transition:enter="transition ease-out duration-300"
+         x-transition:enter-start="opacity-0"
+         x-transition:enter-end="opacity-100"
+         x-transition:leave="transition ease-in duration-200"
+         x-transition:leave-start="opacity-100"
+         x-transition:leave-end="opacity-0"
+         style="display: none;">
+        
+        <div @click.away="demoModalOpen = false" class="bg-forest max-w-4xl w-full rounded-3xl overflow-hidden border border-rosegold shadow-2xl relative">
+            <button @click="demoModalOpen = false" class="absolute top-4 right-4 text-white hover:text-rosegold text-xl z-20 focus:outline-none">
+                <i class="fas fa-times"></i>
+            </button>
+            <div class="p-6 md:p-12 text-center text-white space-y-6">
+                <span class="text-xs font-bold text-rosegold uppercase tracking-widest block">Cinematic Experience</span>
+                <h3 class="text-serif text-3xl font-semibold">Your Day, Perfected</h3>
+                
+                <!-- Simulated player container -->
+                <div class="aspect-video bg-black/60 rounded-2xl relative overflow-hidden flex items-center justify-center">
+                    <img src="https://images.unsplash.com/photo-1465495976277-4387d4b0b4c6?auto=format&fit=crop&q=80&w=1200" class="absolute inset-0 w-full h-full object-cover opacity-60" alt="Beautiful couple laughing together at wedding venue">
+                    <div class="relative z-10 space-y-4">
+                        <div class="w-16 h-16 rounded-full bg-rosegold text-forest flex items-center justify-center text-xl mx-auto cursor-pointer animate-pulse">
+                            <i class="fas fa-play ml-1"></i>
+                        </div>
+                        <p class="text-xs text-champagne-100 italic">"Plan with beautiful ease, love, and absolute transparency."</p>
+                    </div>
+                </div>
+
+                <div class="flex justify-center space-x-4 pt-4">
+                    <a href="#pricing" @click="demoModalOpen = false" class="px-6 py-2.5 bg-rosegold text-forest font-bold uppercase tracking-wider text-xs rounded-full shadow-md hover:bg-rosegold-dark transition-colors">
+                        Get Started Free
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>
